@@ -71,7 +71,7 @@ export async function PUT(request: Request) {
   try {
     console.log("entrada 2");
     const body = await request.json();
-    const { id, number, client, products, status, number_viacargo } = body;
+    const { id, client, products, status, number_viacargo } = body;
 
     console.log(id, "soy el id en el route.ts");
 
