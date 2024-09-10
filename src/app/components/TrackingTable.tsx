@@ -4,9 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
+interface Tracker {
+  id: number;
+  number: number;
+  client: string;
+  products: string[];
+  status: string;
+  number_viacargo: string;
+}
+
 export default function TrackingTable() {
   const [trackerNumber, setTrackerNumber] = useState("");
-  const [trackers, setTrackers] = useState<any>(null);
+  const [trackers, setTrackers] = useState<Tracker[] | null>(null);
 
   const handleSearch = async () => {
     try {
@@ -56,7 +65,7 @@ export default function TrackingTable() {
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {trackers.map((tracker: any, index: number) => (
+                {trackers.map((tracker) => (
                   <tr key={tracker.id}>
                     <td className="py-3 px-6 border-b">{tracker.number}</td>
                     <td className="py-3 px-6 border-b">{tracker.client}</td>
