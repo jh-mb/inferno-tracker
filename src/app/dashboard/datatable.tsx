@@ -29,8 +29,17 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 
+interface ShippingData {
+  id: number;
+  number: number;
+  client: string;
+  products: string[];
+  status: string;
+  number_viacargo: string;
+}
+
 // Definir las columnas
-export const columns: ColumnDef<any>[] = [
+export const columns: ColumnDef<ShippingData>[] = [
   {
     accessorKey: "number",
     header: "N° Envio",
@@ -58,8 +67,8 @@ export const columns: ColumnDef<any>[] = [
   },
 ];
 
-export function DataTableDemo({ data }: { data: any[] }) {
-  const table = useReactTable({
+export function DataTableDemo({ data }: { data: ShippingData[] }) {
+  const table = useReactTable<ShippingData>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -132,7 +141,7 @@ export function DataTableDemo({ data }: { data: any[] }) {
 // Componente para actualizar los datos con el modal
 function UpdateButton({ row }: { row: any }) {
   const [open, setOpen] = React.useState(false);
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = React.useState<ShippingData>({
     id: row.original.id,
     number: row.original.number,
     client: row.original.client,
@@ -140,8 +149,6 @@ function UpdateButton({ row }: { row: any }) {
     status: row.original.status,
     number_viacargo: row.original.number_viacargo,
   });
-
-  console.log(formData.id, "soy el id");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -151,9 +158,7 @@ function UpdateButton({ row }: { row: any }) {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    // Aquí debes realizar la lógica de actualización de la fila
     e.preventDefault();
-
     const formDataNew = new FormData(e.currentTarget);
     const number = formDataNew.get("number");
     const client = formDataNew.get("client");
@@ -176,14 +181,12 @@ function UpdateButton({ row }: { row: any }) {
       });
 
       if (res.ok) {
-        const result = await res.json();
         console.log("Task updated: ", res.status);
       }
     } catch (error) {
       console.error("Failed to submit:", error);
     }
 
-    console.log("Datos actualizados:", formData);
     setOpen(false);
   };
 
