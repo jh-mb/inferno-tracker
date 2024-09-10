@@ -9,6 +9,7 @@ import {
   getFilteredRowModel,
   useReactTable,
   flexRender,
+  Row,
 } from "@tanstack/react-table";
 import { Input } from "@/components/ui/input";
 import {
@@ -139,7 +140,7 @@ export function DataTableDemo({ data }: { data: ShippingData[] }) {
 }
 
 // Componente para actualizar los datos con el modal
-function UpdateButton({ row }: { row: any }) {
+function UpdateButton({ row }: { row: Row<ShippingData> }) {
   const [open, setOpen] = React.useState(false);
   const [formData, setFormData] = React.useState<ShippingData>({
     id: row.original.id,
